@@ -116,12 +116,21 @@ nav .logo {
     transition: transform 0.3s ease;
 }
 
-.swiper-slide-active .icon-box:hover {
-    transform: translateY(-5px);
+/* NEW: Only apply hover effects on Desktop (Mouse) */
+@media (hover: hover) {
+    .swiper-slide-active .icon-box:hover {
+        transform: translateY(-5px);
+    }
+    .swiper-slide-active .icon-box:hover img {
+        transform: scale(1.1); /* Optional: Zoom effect */
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
 }
-/* Add this new rule */
-.swiper-slide-active .icon-box:hover img {
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Apple-style ease */
+
+/* NEW: On Mobile, just a tiny "click" press effect */
+.swiper-slide-active:active .icon-box {
+    transform: scale(0.98) !important;
+    transition: transform 0.1s ease;
 }
 .icon-box img {
     width: 100%;
