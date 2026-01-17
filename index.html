@@ -70,13 +70,14 @@
                     </div>
                     <div class="info">
                         <h2>Education</h2>
-                        <span>My education history</span>
+                        <span></span>
                     </div>
                     <div class="project-details" style="display: none">
                         <h3>Education</h3>
                         <p>
-                            Detailed description for project two. Focus on the
-                            design decisions and UI/UX challenges you overcame.
+                            2019-2022 Dual Qualification incl. High School &
+                            Vocational Business School 2023-2025 Bachelor of
+                            Information Technology & Business
                         </p>
                     </div>
                 </div>
@@ -94,7 +95,29 @@
                     </div>
                     <div class="project-details" style="display: none">
                         <h3>Experience</h3>
-                        <p>Detailed description for project three goes here.</p>
+                        <span>Presented in months</span>
+                        <p>
+                            3-5.2021 • Internship in Accounting • IdeaCompany
+                            Oy<br />
+                            <ul>
+                                <li>Learned basic accounting skills such as billing, record keeping and making financial statements </li>
+
+                            </ul>
+                            4-6.2022 • Work Practice abroad • Jysk Szeged, Hungary<br />
+                            <ul>
+                                <li>Included storework and storage management</li>
+                                <li>Taught how to work in foreign culture</li>
+                            </ul>
+                            2023-2025 • Security Guard • Various Companies<br />
+                            <ul>
+                                <li>Worked as a security guard besides studies in various different events and restaurants</li>
+                                <li>Taught customer service and working under high pressure</li>
+                            </ul>
+                            19.5.-6.10.2025 • Internship • Lightningchart <br />
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </p>
                     </div>
                 </div>
 
@@ -161,60 +184,73 @@
 
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script>
-            // 1. Initialize Swiper Physics
+            // 1. Initialize Swiper with Mobile Physics
             var swiper = new Swiper(".mySwiper", {
                 slidesPerView: "auto",
                 spaceBetween: 60,
                 centeredSlides: true,
                 grabCursor: true,
-                mousewheel: true,
 
-                // Allow clicks to pass through to our custom function
-                preventClicks: false,
-                preventClicksPropagation: false,
-                touchStartPreventDefault: false,
-
+                // MOMENTUM PHYSICS
                 freeMode: {
                     enabled: true,
                     sticky: false,
                     momentumRatio: 0.8,
-                    momentumVelocityRatio: 0.6,
+                    momentumVelocityRatio: 0.6
                 },
+
+                // MOBILE OPTIMIZATION
+                // This is the magic number. It means "Don't count as a swipe
+                // until the finger moves at least 10px".
+                threshold: 10,
+
                 speed: 600,
+
+                // SMART CLICK DETECTION
+                // We let Swiper handle the clicks. It will NOT fire this
+                // if the user dragged the slide.
+                on: {
+                    click: function (swiper, event) {
+                        // Find the clicked slide using the event target
+                        // This works even if Swiper's internal clickedSlide is confused
+                        const clickedSlide = event.target.closest('.swiper-slide');
+
+                        // If they clicked whitespace, do nothing
+                        if (!clickedSlide) return;
+
+                        // If they clicked the Intro Text (which has no details), do nothing
+                        const detailsDiv = clickedSlide.querySelector('.project-details');
+                        if (!detailsDiv) return;
+
+                        // It's a valid project! Open the modal.
+                        openModal(clickedSlide);
+                    }
+                }
             });
 
-            // 2. Open Modal Function (Text Only)
-            function openModal(element) {
-                const modal = document.getElementById("project-modal");
-                const modalText = document.getElementById("modal-text");
+            // 2. Modal Logic (Simplified)
+            const modal = document.getElementById('project-modal');
+            const modalText = document.getElementById('modal-text');
 
+            function openModal(slideElement) {
                 // Find the hidden text inside the clicked element
-                const detailsElement =
-                    element.querySelector(".project-details");
+                const detailsElement = slideElement.querySelector('.project-details');
 
                 if (detailsElement) {
-                    // Copy text to modal
                     modalText.innerHTML = detailsElement.innerHTML;
-                    modal.classList.add("active");
-                } else {
-                    console.log("No details found for this slide.");
+                    modal.classList.add('active');
                 }
             }
 
-            // 3. Close Modal Function
+            // 3. Close Function
             function closeModal() {
-                const modal = document.getElementById("project-modal");
-                modal.classList.remove("active");
+                modal.classList.remove('active');
             }
 
             // 4. Close when clicking background
-            document
-                .getElementById("project-modal")
-                .addEventListener("click", (e) => {
-                    if (e.target.id === "project-modal") {
-                        closeModal();
-                    }
-                });
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
         </script>
         <footer class="credits">
             <p>Fully Designed & Made By Me • 2026</p>
