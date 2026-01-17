@@ -184,70 +184,72 @@
 
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script>
-            // 1. Initialize Swiper with Mobile Physics
             var swiper = new Swiper(".mySwiper", {
+                // LAYOUT
                 slidesPerView: "auto",
-                spaceBetween: 60,
+                spaceBetween: 60, // Space between cards
                 centeredSlides: true,
-                grabCursor: true,
 
-                // MOMENTUM PHYSICS
+                // PHYSICS ENGINE (The "Mike Matas" Feel)
+                speed: 700, // Slower, more elegant transitions
                 freeMode: {
                     enabled: true,
-                    sticky: false,
-                    momentumRatio: 0.8,
-                    momentumVelocityRatio: 0.6
+                    sticky: false, // DISABLED snapping to make it flow freely
+                    momentum: true,
+                    momentumRatio: 0.92, // High momentum (glides longer)
+                    momentumVelocityRatio: 0.5, // How fast it reacts to a flick
+                    momentumBounce: true, // "Rubber band" effect at edges
+                    momentumBounceRatio: 0.8
                 },
 
-                // MOBILE OPTIMIZATION
-                // This is the magic number. It means "Don't count as a swipe
-                // until the finger moves at least 10px".
-                threshold: 10,
+                // MOUSE / TRACKPAD
+                mousewheel: {
+                    enabled: true,
+                    sensitivity: 2.5, // Smoother trackpad scrolling
+                    releaseOnEdges: true,
+                },
 
-                speed: 600,
+                // TOUCH SETTINGS
+                grabCursor: true,
+                touchStartPreventDefault: false, // Let the browser handle the start
+                touchReleaseOnEdges: true,
+                threshold: 5, // Lower threshold for faster response
 
-                // SMART CLICK DETECTION
-                // We let Swiper handle the clicks. It will NOT fire this
-                // if the user dragged the slide.
+                // CLICK LOGIC (Keep this to fix the "Click vs Drag" issue)
                 on: {
                     click: function (swiper, event) {
-                        // Find the clicked slide using the event target
-                        // This works even if Swiper's internal clickedSlide is confused
                         const clickedSlide = event.target.closest('.swiper-slide');
-
-                        // If they clicked whitespace, do nothing
                         if (!clickedSlide) return;
 
-                        // If they clicked the Intro Text (which has no details), do nothing
+                        // Only open if they clicked the details part
                         const detailsDiv = clickedSlide.querySelector('.project-details');
                         if (!detailsDiv) return;
 
-                        // It's a valid project! Open the modal.
                         openModal(clickedSlide);
+                    },
+                    // Optional: Subtle scale effect while dragging
+                    touchMove: function(s) {
+                        // You can add logic here if you want things to react while moving
                     }
                 }
             });
 
-            // 2. Modal Logic (Simplified)
+            // --- MODAL FUNCTIONS (Same as before) ---
             const modal = document.getElementById('project-modal');
             const modalText = document.getElementById('modal-text');
 
             function openModal(slideElement) {
-                // Find the hidden text inside the clicked element
                 const detailsElement = slideElement.querySelector('.project-details');
-
                 if (detailsElement) {
                     modalText.innerHTML = detailsElement.innerHTML;
                     modal.classList.add('active');
                 }
             }
 
-            // 3. Close Function
             function closeModal() {
                 modal.classList.remove('active');
             }
 
-            // 4. Close when clicking background
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
