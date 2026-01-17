@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Niklas Salmi</title>
+
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <nav>
+            <div class="links">
+                <a href="mailto:your@email.com">Contact</a>
+            </div>
+        </nav>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide text-slide">
+                    <h1>Hello. I'm Niklas.</h1>
+                    <p>
+                        I am a Bachelor of Business & IT based in Finland.
+                        Moving to Australia soon. Swipe left to get to know me!
+                    </p>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon1.png" alt="Project 1" />
+                    </div>
+                    <div class="info">
+                        <h2>About Me</h2>
+                        <span>Short introduction</span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>About Me</h3>
+                        <p>
+                            This is the detailed description for Project One.
+                            Explain the technologies used (e.g., Python, React)
+                            and the problem you solved.
+                        </p>
+                        <br />
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Feature A: Real-time data sync</li>
+                            <li>Feature B: Custom API integration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon2.png" alt="Project 2" />
+                    </div>
+                    <div class="info">
+                        <h2>Education</h2>
+                        <span>My education history</span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>Education</h3>
+                        <p>
+                            Detailed description for project two. Focus on the
+                            design decisions and UI/UX challenges you overcame.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon3.png" alt="Project 3" />
+                    </div>
+                    <div class="info">
+                        <h2>Experience</h2>
+                        <span>Work Experience</span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>Experience</h3>
+                        <p>Detailed description for project three goes here.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon4.png" alt="Project 4" />
+                    </div>
+                    <div class="info">
+                        <h2>Skills</h2>
+                        <span></span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>Skills</h3>
+                        <p>Detailed description for project four goes here.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon5.png" alt="Project 5" />
+                    </div>
+                    <div class="info">
+                        <h2>Work Permit</h2>
+                        <span>My Australian Visa Information</span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>Work Permit</h3>
+                        <p>Detailed description for project five goes here.</p>
+                    </div>
+                </div>
+
+                <div
+                    class="swiper-slide project-slide"
+                    onclick="openModal(this)"
+                >
+                    <div class="icon-box">
+                        <img src="assets/icon6.png" alt="Project 6" />
+                    </div>
+                    <div class="info">
+                        <h2>Contact Me</h2>
+                        <span></span>
+                    </div>
+                    <div class="project-details" style="display: none">
+                        <h3>Contact Me</h3>
+                        <p>Detailed description for project six goes here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="project-modal" class="modal-overlay">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+
+                <div id="modal-text" class="modal-body"></div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            // 1. Initialize Swiper Physics
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: "auto",
+                spaceBetween: 60,
+                centeredSlides: true,
+                grabCursor: true,
+                mousewheel: true,
+
+                // Allow clicks to pass through to our custom function
+                preventClicks: false,
+                preventClicksPropagation: false,
+                touchStartPreventDefault: false,
+
+                freeMode: {
+                    enabled: true,
+                    sticky: false,
+                    momentumRatio: 0.8,
+                    momentumVelocityRatio: 0.6,
+                },
+                speed: 600,
+            });
+
+            // 2. Open Modal Function (Text Only)
+            function openModal(element) {
+                const modal = document.getElementById("project-modal");
+                const modalText = document.getElementById("modal-text");
+
+                // Find the hidden text inside the clicked element
+                const detailsElement =
+                    element.querySelector(".project-details");
+
+                if (detailsElement) {
+                    // Copy text to modal
+                    modalText.innerHTML = detailsElement.innerHTML;
+                    modal.classList.add("active");
+                } else {
+                    console.log("No details found for this slide.");
+                }
+            }
+
+            // 3. Close Modal Function
+            function closeModal() {
+                const modal = document.getElementById("project-modal");
+                modal.classList.remove("active");
+            }
+
+            // 4. Close when clicking background
+            document
+                .getElementById("project-modal")
+                .addEventListener("click", (e) => {
+                    if (e.target.id === "project-modal") {
+                        closeModal();
+                    }
+                });
+        </script>
+        <footer class="credits">
+            <p>Fully Designed & Made By Me • 2026</p>
+            <p class="sub-text"></p>
+        </footer>
+        ;
+    </body>
+</html>

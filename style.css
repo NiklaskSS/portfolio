@@ -1,0 +1,315 @@
+/* RESET & BASICS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f4f4;
+
+    /* UPDATED FONT STACK */
+    font-family: "Apple Garamond", "EB Garamond", "Garamond", serif;
+
+    /* Garamond looks better with slightly tighter spacing */
+    letter-spacing: -0.02em;
+
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* NAVIGATION */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    pointer-events: none;
+}
+nav a,
+nav .logo {
+    pointer-events: auto;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* SWIPER CONTAINER */
+.swiper {
+    width: 100%;
+    height: 70vh;
+    overflow: visible;
+}
+
+.swiper-wrapper {
+    align-items: center;
+}
+
+/* SLIDE ANIMATIONS */
+.swiper-slide {
+    width: auto;
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+    opacity: 0.3;
+    transform: scale(0.9);
+}
+
+.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+}
+
+/* INTRO TEXT */
+.text-slide {
+    width: 400px;
+    margin-right: 40px;
+    padding-left: 40px;
+}
+.text-slide h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    color: #111;
+}
+.text-slide p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* PROJECT CARDS */
+.project-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 280px;
+    cursor: pointer; /* Shows it is clickable */
+    margin-top: 180px;
+}
+
+/* ICON BOX (Resized & Clipped) */
+.icon-box {
+    width: 260px;
+    height: 260px;
+    background: #ffffff;
+    border-radius: 60px;
+    overflow: hidden; /* Clips the image corners */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Replace the old box-shadow in .icon-box with this: */
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.05),
+        /* Layer 1: Tight & crisp */ 0 30px 60px rgba(0, 0, 0, 0.12); /* Layer 2: Large & soft */
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.swiper-slide-active .icon-box:hover {
+    transform: translateY(-5px);
+}
+/* Add this new rule */
+.swiper-slide-active .icon-box:hover img {
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Apple-style ease */
+}
+.icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fills box completely */
+}
+
+/* INFO TEXT UNDER ICON */
+.info {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+}
+.swiper {
+    /* Keep your existing dimensions/transform... */
+    width: 100%;
+    height: 70vh;
+    transform: translateY(50px);
+    overflow: visible;
+
+    /* NEW: Fades the left and right edges */
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+    );
+}
+.swiper-slide-active .info {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* When clicking the active slide */
+.swiper-slide-active:active .icon-box {
+    transform: scale(0.96) !important; /* Shrink slightly */
+    transition: transform 0.1s ease; /* Super fast response */
+}
+.info h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: #000;
+}
+.info span {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* MODAL OVERLAY */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* MODAL CARD */
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 30px;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    width: 100%;
+    height: 250px;
+    background: #f4f4f4;
+}
+
+.modal-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-body {
+    padding: 40px;
+    color: #333;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.modal-body h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+.modal-body h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.modal-body ul {
+    padding-left: 20px;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+.close-btn:hover {
+    background: #eee;
+}
+/* Force slides to be on top of everything else */
+.swiper-slide {
+    z-index: 50;
+    position: relative;
+}
+
+/* Ensure Nav doesn't block the top of the screen */
+nav {
+    pointer-events: none; /* Let clicks pass through the empty parts of nav */
+}
+nav a {
+    pointer-events: auto; /* Re-enable clicks for links */
+}
+/* FOOTER CREDITS */
+.credits {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    pointer-events: none; /* Allows clicks to pass through if it overlaps anything */
+    z-index: 50; /* Above background, below modal */
+
+    /* Typography */
+    font-family:
+        -apple-system, BlinkMacSystemFont, sans-serif; /* Keep it simple sans-serif */
+    font-size: 11px;
+    color: #999; /* Light grey */
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+/* Make it slightly more visible on hover */
+.credits:hover {
+    opacity: 1;
+}
+
+.credits .sub-text {
+    margin-top: 4px;
+    font-size: 10px;
+    opacity: 0.7;
+}
